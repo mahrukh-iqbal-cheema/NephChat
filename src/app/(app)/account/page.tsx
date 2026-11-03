@@ -4,6 +4,7 @@ import { Trash2 } from "lucide-react";
 import { deleteMyAccount } from "@/actions/patient";
 import { ConfirmAction } from "@/components/app/confirm-action";
 import { PageHeader } from "@/components/app/page-header";
+import { PageShell } from "@/components/app/page-shell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { isAdmin, requireUser } from "@/lib/session";
 
@@ -13,7 +14,7 @@ export default async function AccountPage() {
   const common = await getTranslations("common");
 
   return (
-    <>
+    <PageShell size="narrow">
       <PageHeader title={t("title")} description={t("signedInAs", { email: user.email })} />
       <div className="flex flex-col gap-4">
         {!isAdmin(user) && (
@@ -43,6 +44,6 @@ export default async function AccountPage() {
           {common("privacy")}
         </Link>
       </div>
-    </>
+    </PageShell>
   );
 }

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Disclaimer } from "@/components/app/disclaimer";
 import { PageHeader } from "@/components/app/page-header";
+import { PageShell } from "@/components/app/page-shell";
 import { RiskBadge } from "@/components/app/risk-badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,62 +25,71 @@ export default async function DietPlanPage({ params }: PageProps<"/diet/[id]">) 
 
   const stage = plan.stage as Stage;
   const foods = rows.map((f) => {
-    const food = { ...f, portionsEn: f.portionsEn as DietFood["portionsEn"], portionsUr: f.portionsUr as DietFood["portionsUr"] };
+    const food = {
+      ...f,
+      portionsEn: f.portionsEn as DietFood["portionsEn"],
+      portionsUr: f.portionsUr as DietFood["portionsUr"],
+    };
     return { ...food, name: ur ? f.nameUr : f.nameEn, cls: classifyFood(food, stage, locale) };
   });
   const meals = buildMealPlan(foods.filter((f) => f.cls.level !== "red"));
   const hasMeals = MEALS.some((m) => meals[m].length);
 
   return (
-    <>
+    <PageShell size="wide">
       <PageHeader title={t("planTitle")} description={t("basedOn", { stage })} backHref="/diet" />
-      <div className="flex flex-col gap-5">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">{t("mealIdea")}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {hasMeals ? (
-              MEALS.filter((m) => meals[m].length).map((m) => (
-                <p key={m}>
-                  <span className="font-semibold">{t(`meals.${m}`)}: </span>
-                  {meals[m].map((f) => f.name).join(ur ? "، " : ", ")}
-                </p>
-              ))
-            ) : (
-              <p className="text-sm text-muted-foreground">{t("moreFoods")}</p>
-            )}
-          </CardContent>
-        </Card>
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+        <aside className="flex flex-col gap-4 lg:sticky lg:top-24 lg:order-last">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm text-muted-foreground">{t("mealIdea")}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {hasMeals ? (
+                MEALS.filter((m) => meals[m].length).map((m) => (
+                  <div key={m}>
+                    <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                      {t(`meals.${m}`)}
+                    </p>
+                    <p className="mt-0.5">{meals[m].map((f) => f.name).join(ur ? "، " : ", ")}</p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-muted-foreground">{t("moreFoods")}</p>
+              )}
+            </CardContent>
+          </Card>
+          <Link href="/diet" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-11")}>
+            {t("newPlan")}
+          </Link>
+          <Disclaimer>{t("disclaimer")}</Disclaimer>
+        </aside>
 
-        <h2 className="text-sm font-semibold text-muted-foreground">{t("yourFoods")}</h2>
-        <div className="flex flex-col gap-3">
-          {foods.map((f) => (
-            <Card key={f.id} size="sm">
-              <CardContent className="space-y-1.5">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="font-semibold">{f.name}</span>
-                  <RiskBadge level={f.cls.level} className="text-xs">
-                    {t(`levels.${f.cls.level}`)}
-                  </RiskBadge>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {t(`classify.${f.cls.key}`, {
-                    stage,
-                    portion: f.cls.portion ?? "",
-                    nutrient: f.cls.nutrient ? t(`nutrient.${f.cls.nutrient}`) : "",
-                  })}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <Link href="/diet" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-11")}>
-          {t("newPlan")}
-        </Link>
-        <Disclaimer>{t("disclaimer")}</Disclaimer>
+        <section>
+          <h2 className="mb-3 text-sm font-semibold text-muted-foreground">{t("yourFoods")}</h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {foods.map((f) => (
+              <Card key={f.id} size="sm">
+                <CardContent className="space-y-1.5">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-semibold">{f.name}</span>
+                    <RiskBadge level={f.cls.level} className="text-xs">
+                      {t(`levels.${f.cls.level}`)}
+                    </RiskBadge>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {t(`classify.${f.cls.key}`, {
+                      stage,
+                      portion: f.cls.portion ?? "",
+                      nutrient: f.cls.nutrient ? t(`nutrient.${f.cls.nutrient}`) : "",
+                    })}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
       </div>
-    </>
+    </PageShell>
   );
 }

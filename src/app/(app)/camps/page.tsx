@@ -1,6 +1,7 @@
 import { getFormatter, getTranslations } from "next-intl/server";
 import { CalendarDays, Hospital, MapPin, Phone } from "lucide-react";
 import { PageHeader } from "@/components/app/page-header";
+import { PageShell } from "@/components/app/page-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/lib/db";
 
@@ -12,7 +13,7 @@ export default async function CampsPage() {
   const camps = await db.camp.findMany({ where: { date: { gte: today } }, orderBy: { date: "asc" }, take: 100 });
 
   return (
-    <>
+    <PageShell size="wide">
       <PageHeader title={t("title")} />
       {camps.length === 0 ? (
         <div className="flex flex-col items-center py-10 text-center">
@@ -23,7 +24,7 @@ export default async function CampsPage() {
           <p className="mt-1 text-sm text-muted-foreground">{t("emptySub")}</p>
         </div>
       ) : (
-        <div className="flex flex-col gap-3">
+        <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
           {camps.map((c) => (
             <Card key={c.id}>
               <CardHeader>
@@ -52,6 +53,6 @@ export default async function CampsPage() {
           ))}
         </div>
       )}
-    </>
+    </PageShell>
   );
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { ChevronRight } from "lucide-react";
 import { PageHeader } from "@/components/app/page-header";
+import { PageShell } from "@/components/app/page-shell";
 import { RiskBadge } from "@/components/app/risk-badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/lib/db";
@@ -26,9 +27,9 @@ export default async function HistoryPage() {
   const date = (d: Date) => format.dateTime(d, { dateStyle: "medium" });
 
   return (
-    <>
+    <PageShell size="wide">
       <PageHeader title={t("title")} />
-      <div className="flex flex-col gap-4">
+      <div className="grid items-start gap-4 lg:grid-cols-3">
         <Section title={t("quiz")} empty={t("empty")}>
           {quizzes.map((r) => (
             <Row key={r.id} href={`/quiz/${r.id}`} date={date(r.createdAt)}>
@@ -55,7 +56,7 @@ export default async function HistoryPage() {
           ))}
         </Section>
       </div>
-    </>
+    </PageShell>
   );
 }
 

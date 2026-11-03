@@ -2,6 +2,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { articleIcon } from "@/components/app/article-icon";
 import { NavCard } from "@/components/app/nav-card";
 import { PageHeader } from "@/components/app/page-header";
+import { PageShell } from "@/components/app/page-shell";
 import { db } from "@/lib/db";
 
 export default async function LearnPage() {
@@ -14,14 +15,14 @@ export default async function LearnPage() {
   });
 
   return (
-    <>
+    <PageShell size="wide">
       <PageHeader title={t("title")} description={t("question")} />
-      <div className="flex flex-col gap-3">
+      <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
         {articles.map((a) => (
           <NavCard key={a.slug} href={`/learn/${a.slug}`} icon={articleIcon(a.icon)} title={ur ? a.titleUr : a.titleEn} />
         ))}
         {articles.length === 0 && <p className="text-muted-foreground">{t("empty")}</p>}
       </div>
-    </>
+    </PageShell>
   );
 }

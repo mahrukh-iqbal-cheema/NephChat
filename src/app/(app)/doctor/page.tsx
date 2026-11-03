@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Activity, Calculator } from "lucide-react";
 import { NavCard } from "@/components/app/nav-card";
 import { PageHeader } from "@/components/app/page-header";
+import { PageShell } from "@/components/app/page-shell";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { requireAdmin } from "@/lib/session";
@@ -40,36 +41,40 @@ export default async function DoctorToolsPage() {
   const t = await getTranslations("doctor");
 
   return (
-    <>
+    <PageShell>
       <PageHeader title={t("title")} />
       <div className="flex flex-col gap-6">
         <ProBanner>{t("proOnly")}</ProBanner>
-        <div className="flex flex-col gap-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           <NavCard href="/egfr" icon={Calculator} title="eGFR" description={t("egfrSub")} />
           <NavCard href="/doctor/kfre" icon={Activity} title={t("kfreTitle")} description={t("kfreSub")} />
         </div>
-        <RefTable title={t("gfrCatTitle")} rows={GFR} />
-        <RefTable title={t("acrCatTitle")} rows={ACR} />
-        <section>
-          <h2 className="mb-2 text-sm font-semibold text-muted-foreground">{t("riskStratTitle")}</h2>
-          <Card>
-            <CardContent>{t("riskStratBody")}</CardContent>
-          </Card>
-        </section>
-        <section dir="ltr">
-          <h2 className="mb-2 text-sm font-semibold text-muted-foreground">{t("referralTitle")}</h2>
-          <Card>
-            <CardContent>
-              <ul className="list-disc space-y-2 ps-5">
-                {REFERRAL.map((r) => (
-                  <li key={r}>{r}</li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </section>
+        <div className="grid items-start gap-6 lg:grid-cols-2">
+          <RefTable title={t("gfrCatTitle")} rows={GFR} />
+          <RefTable title={t("acrCatTitle")} rows={ACR} />
+        </div>
+        <div className="grid items-start gap-6 lg:grid-cols-2">
+          <section>
+            <h2 className="mb-2 text-sm font-semibold text-muted-foreground">{t("riskStratTitle")}</h2>
+            <Card>
+              <CardContent>{t("riskStratBody")}</CardContent>
+            </Card>
+          </section>
+          <section dir="ltr">
+            <h2 className="mb-2 text-sm font-semibold text-muted-foreground">{t("referralTitle")}</h2>
+            <Card>
+              <CardContent>
+                <ul className="list-disc space-y-2 ps-5">
+                  {REFERRAL.map((r) => (
+                    <li key={r}>{r}</li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          </section>
+        </div>
       </div>
-    </>
+    </PageShell>
   );
 }
 

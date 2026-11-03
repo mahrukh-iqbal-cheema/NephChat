@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { CircleAlert } from "lucide-react";
 import { Disclaimer } from "@/components/app/disclaimer";
 import { PageHeader } from "@/components/app/page-header";
+import { PageShell } from "@/components/app/page-shell";
 import { RiskBadge } from "@/components/app/risk-badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { buttonVariants } from "@/components/ui/button";
@@ -23,7 +24,7 @@ export default async function QuizResultPage({ params }: PageProps<"/quiz/[id]">
   const level = result.level;
 
   return (
-    <>
+    <PageShell size="narrow">
       <PageHeader title={t("title")} />
       <div className="flex flex-1 flex-col gap-5">
         <RiskBadge level={level.toLowerCase() as "green" | "amber" | "red"} className="self-start">
@@ -55,7 +56,7 @@ export default async function QuizResultPage({ params }: PageProps<"/quiz/[id]">
           </CardContent>
         </Card>
 
-        <div className="mt-auto flex flex-col gap-3 pt-4">
+        <div className="mt-auto flex flex-col gap-3 pt-4 sm:mt-2">
           <Link href="/" className={cn(buttonVariants({ size: "lg" }), "h-11 text-base")}>
             {common("home")}
           </Link>
@@ -65,6 +66,6 @@ export default async function QuizResultPage({ params }: PageProps<"/quiz/[id]">
           <Disclaimer>{common("screeningDisclaimer")}</Disclaimer>
         </div>
       </div>
-    </>
+    </PageShell>
   );
 }

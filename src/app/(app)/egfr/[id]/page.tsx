@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Disclaimer } from "@/components/app/disclaimer";
 import { PageHeader } from "@/components/app/page-header";
+import { PageShell } from "@/components/app/page-shell";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { egfrBand } from "@/lib/clinical";
@@ -20,7 +21,7 @@ export default async function EgfrResultPage({ params }: PageProps<"/egfr/[id]">
   const common = await getTranslations("common");
 
   return (
-    <>
+    <PageShell size="narrow">
       <PageHeader title={t("title")} backHref="/egfr" />
       <div className="flex flex-1 flex-col items-center gap-6">
         <div className="flex size-44 flex-col items-center justify-center rounded-full border-[10px] border-secondary bg-card text-center">
@@ -48,6 +49,6 @@ export default async function EgfrResultPage({ params }: PageProps<"/egfr/[id]">
           <Disclaimer>{common("screeningDisclaimer")}</Disclaimer>
         </div>
       </div>
-    </>
+    </PageShell>
   );
 }
