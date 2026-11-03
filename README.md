@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NephChat
 
-## Getting Started
+A simple guide to kidney health: risk screening, eGFR, education, a CKD diet planner, screening camps, and doctor tools. English and Urdu (RTL).
 
-First, run the development server:
+One Next.js app serves the patient app, the admin portal (`/admin`) and the API. Data lives in PostgreSQL.
+
+## Stack
+
+| Concern | Choice |
+| --- | --- |
+| App + API | Next.js 16 (App Router, server actions) |
+| Database | PostgreSQL via Prisma 6 |
+| Auth | Better Auth (email + password, admin plugin for roles) |
+| UI | shadcn/ui (Base UI) + Tailwind CSS 4, lucide icons |
+| i18n | next-intl (cookie-based locale, `messages/en.json`, `messages/ur.json`) |
+
+## Getting started
+
+Requires Node 20.9+ and PostgreSQL.
 
 ```bash
+cp .env.example .env        # fill in DATABASE_URL, BETTER_AUTH_SECRET, ADMIN_*
+npm install
+npm run db:deploy           # apply migrations
+npm run db:seed             # load articles + 116 foods, create the first doctor account
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 and sign in with `ADMIN_EMAIL` / `ADMIN_PASSWORD`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Roles
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Patient** (`role = "user"`): open sign-up. Sees and deletes only their own saved results.
+- **Doctor** (`role = "admin"`): never self-service. Created by `npm run db:seed` (first account) or by another doctor in **Admin → Users**. Can edit content, manage accounts and use Doctor tools.
 
-## Learn More
+The portal shows only aggregate usage counts, never an individual patient's results.
 
-To learn more about Next.js, take a look at the following resources:
+## Where things live
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+prisma/schema.prisma        data model (auth tables, patient results, content)
+prisma/seed-data.ts         original articles and food table from the prototype
+src/lib/clinical.ts         risk scoring, CKD-EPI 2021, KFRE, diet classification and meal plan
+src/actions/                server actions (patient.ts, admin.ts, locale.ts)
+src/app/(app)/              patient screens
+src/app/(auth)/             sign in / sign up
+src/app/admin/              admin portal (English only)
+messages/                   UI strings (en, ur)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Content edited in the portal (camps, articles, foods) appears in the app immediately. Quiz questions, scoring and clinical reference tables are in code (`src/lib/clinical.ts`, `src/app/(app)/doctor/page.tsx`) because they are tied to the calculations.
 
-## Deploy on Vercel
+## Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Script | Purpose |
+| --- | --- |
+| `npm run dev` | Dev server |
+| `npm run build` / `start` | Production build / server |
+| `npm run db:migrate` | Create a migration after editing the schema (dev) |
+| `npm run db:deploy` | Apply migrations (production) |
+| `npm run db:seed` | Seed content and first doctor (idempotent; never overwrites portal edits) |
+| `npm run typecheck`, `npm run lint` | Checks |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploying
+
+Any Node host with PostgreSQL works (Render, Railway, Fly, a VPS, or Vercel + a managed Postgres such as Neon/Supabase). Set the env vars from `.env.example`, with `BETTER_AUTH_URL` set to the public URL, then run `npm run db:deploy` on release. Turn on automated database backups at the provider and point an uptime check at `/login`.
+
+## Not yet done
+
+- App store packaging (Capacitor shell or PWA wrapper), store assets and listings. A web manifest is already served.
+- Legal review of the privacy policy at `/privacy` (current text is a draft).
+- Password reset email (needs an email provider).

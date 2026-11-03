@@ -1,0 +1,216 @@
+{
+  "common": {
+    "appName": "NephChat",
+    "tagline": "Your simple guide to kidney health.",
+    "switchLanguage": "اردو",
+    "next": "Next",
+    "back": "Back",
+    "home": "Home",
+    "save": "Save",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "notSure": "I'm not sure",
+    "sometimes": "Sometimes",
+    "none": "None of these",
+    "history": "My history",
+    "account": "Account",
+    "doctorTools": "Doctor tools",
+    "adminPortal": "Admin portal",
+    "signOut": "Sign out",
+    "privacy": "Privacy policy",
+    "screeningDisclaimer": "This is a simple screening tool, not a diagnosis. Only a healthcare professional can assess your kidneys properly.",
+    "error": "Something went wrong. Please try again."
+  },
+  "auth": {
+    "signInTitle": "Sign in",
+    "signInSub": "Welcome back to NephChat.",
+    "signUpTitle": "Create your account",
+    "signUpSub": "Save your results and come back to them any time.",
+    "name": "Full name",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "At least 8 characters.",
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "noAccount": "New to NephChat?",
+    "haveAccount": "Already have an account?",
+    "agree": "By creating an account you agree to our privacy policy."
+  },
+  "home": {
+    "risk": "Check my kidney risk",
+    "riskSub": "Takes about 2 minutes",
+    "egfr": "Calculate eGFR",
+    "egfrSub": "Understand your kidney function",
+    "learn": "Learn about kidneys",
+    "learnSub": "Simple answers to common questions",
+    "diet": "My kidney diet",
+    "dietSub": "What can I actually eat?",
+    "camps": "Find a screening camp",
+    "campsSub": "Get your kidneys checked nearby"
+  },
+  "quiz": {
+    "title": "Kidney risk check",
+    "progress": "{current} of {total}",
+    "seeResult": "See my result",
+    "q_age": "How old are you?",
+    "ageHint": "Enter your age in years",
+    "q_diabetes": "Do you have diabetes?",
+    "q_bp": "Do you have high blood pressure?",
+    "q_family": "Has anyone in your family had kidney disease?",
+    "q_stones": "Have you ever had kidney stones?",
+    "q_abnormal": "Have you ever been told your kidney function or creatinine is abnormal?",
+    "q_symptoms": "Have you noticed any of these?",
+    "sym_frothy": "Frothy urine",
+    "sym_blood": "Blood in urine",
+    "sym_swelling": "Swelling of feet or face",
+    "sym_reduced": "Reduced urine output",
+    "q_nsaid": "Do you regularly take painkillers such as ibuprofen, diclofenac or naproxen?",
+    "yes": "Yes",
+    "no": "No",
+    "notSure": "I'm not sure",
+    "sometimes": "Sometimes",
+    "none": "None of these",
+    "level": {
+      "GREEN": {
+        "label": "Low factors found",
+        "title": "No major risk factors found right now",
+        "text": "Based on your answers, we didn't find strong kidney risk factors today. Keep up regular checkups, especially if your health changes."
+      },
+      "AMBER": {
+        "label": "Kidney check recommended",
+        "title": "Kidney check recommended",
+        "text": "Your answers show some factors that can be associated with kidney disease. Consider discussing kidney screening with a healthcare professional."
+      },
+      "RED": {
+        "label": "Please see a doctor soon",
+        "title": "Please see a doctor soon",
+        "text": "Your answers show several factors, or symptoms, worth having assessed by a doctor soon. This is not a diagnosis — a professional evaluation is the safe next step."
+      }
+    },
+    "urgentTitle": "Please see a doctor soon",
+    "urgentBody": "One or more of your answers, such as blood in urine, reduced urine, or swelling, are worth having checked promptly by a doctor.",
+    "usefulChecks": "Useful next checks",
+    "bpCheck": "Blood pressure",
+    "creatCheck": "Serum creatinine / eGFR",
+    "acrCheck": "Urine ACR",
+    "retake": "Take the check again"
+  },
+  "egfr": {
+    "title": "Calculate eGFR",
+    "age": "Age",
+    "sex": "Sex",
+    "female": "Female",
+    "male": "Male",
+    "creatinine": "Serum creatinine (mg/dL)",
+    "calculate": "Calculate eGFR",
+    "yourEgfr": "Your estimated GFR",
+    "unit": "mL/min/1.73m²",
+    "whatMeans": "What does this mean?",
+    "band": {
+      "normal": "This is generally within the typical range for healthy adults, though it should still be read alongside your urine ACR and history.",
+      "mild": "This is a mildly reduced reading. On its own, this doesn't confirm kidney disease — it's worth discussing with a doctor along with a urine ACR test.",
+      "moderate": "This reading is below the typical range. It's important to discuss this with a doctor soon, along with your urine ACR and past results.",
+      "severe": "This reading is significantly below the typical range. Please arrange to see a doctor or nephrologist promptly for a full assessment."
+    },
+    "learnMore": "Understand my result",
+    "newCalc": "New calculation"
+  },
+  "learn": {
+    "title": "Learn about kidneys",
+    "question": "What would you like to know?",
+    "empty": "No articles yet."
+  },
+  "diet": {
+    "title": "My kidney diet",
+    "stageQ": "What is your CKD stage?",
+    "vegOnly": "Vegetarian only",
+    "stageHint": "Ask your nephrologist which stage applies to you if you're not sure — it's usually based on your most recent eGFR.",
+    "selectTitle": "Select everything you normally eat",
+    "stageLabel": "Stage: {stage}",
+    "vegLabel": "Vegetarian",
+    "seeMyPlan": "See my plan ({count} selected)",
+    "planTitle": "Your kidney-friendly food plan",
+    "basedOn": "Based on {stage} and the foods you selected.",
+    "mealIdea": "A starting meal idea",
+    "moreFoods": "Select a few more foods across categories to build a sample meal.",
+    "yourFoods": "Your selected foods",
+    "disclaimer": "Your plan is an educational guide based on the information you entered. Your nephrologist or dietitian may adjust it according to your lab results and medical condition.",
+    "newPlan": "Build a new plan",
+    "meals": {
+      "BREAKFAST": "Breakfast",
+      "LUNCH": "Lunch",
+      "DINNER": "Dinner",
+      "SNACK": "Snack"
+    },
+    "categories": {
+      "FRUITS": "Fruits",
+      "VEGETABLES": "Vegetables",
+      "DRY_FRUITS": "Dry fruits & nuts",
+      "GRAINS": "Grains & snacks",
+      "DAIRY": "Dairy & drinks",
+      "PROTEIN": "Meat, fish & legumes",
+      "OTHER": "Other"
+    },
+    "levels": {
+      "green": "Suitable",
+      "amber": "Limit",
+      "red": "Avoid"
+    },
+    "nutrient": {
+      "potassium": "potassium",
+      "phosphorus": "phosphorus",
+      "both": "potassium and phosphorus"
+    },
+    "classify": {
+      "avoid": "Not suggested at this CKD stage.",
+      "normal": "Allowed in normal amounts at the {stage} stage.",
+      "portion": "Suggested portion for {stage}: {portion}",
+      "highSodium": "High sodium — best avoided or strictly limited at every CKD stage, for blood pressure and fluid control.",
+      "highNutrientCkd3": "Higher in {nutrient} — eat in smaller portions, and ask your dietitian if you eat this often.",
+      "highNutrient": "Higher in {nutrient} — best avoided at this stage unless your dietitian specifically approves it.",
+      "friendly": "Generally a kidney-friendly choice in normal portions."
+    }
+  },
+  "camps": {
+    "title": "Screening camps",
+    "empty": "No upcoming camps listed right now.",
+    "emptySub": "Ask your clinic or PAK Kidney Foundation for current camp dates in your area.",
+    "date": "Date",
+    "contact": "Contact"
+  },
+  "history": {
+    "title": "My history",
+    "quiz": "Risk checks",
+    "egfr": "eGFR results",
+    "diet": "Diet plans",
+    "empty": "Nothing saved yet.",
+    "view": "View"
+  },
+  "account": {
+    "title": "Account",
+    "signedInAs": "Signed in as {email}",
+    "deleteTitle": "Delete my account",
+    "deleteBody": "This permanently deletes your account and all saved results. This cannot be undone.",
+    "deleteConfirm": "Delete account",
+    "deleteDialogTitle": "Delete your account?"
+  },
+  "doctor": {
+    "title": "Doctor tools",
+    "proOnly": "For healthcare professional use. Not intended for patient self-assessment.",
+    "egfrSub": "2021 CKD-EPI creatinine equation",
+    "kfreTitle": "Kidney Failure Risk Equation",
+    "kfreSub": "4-variable KFRE — Tangri et al. 2011",
+    "gfrCatTitle": "GFR categories (KDIGO)",
+    "acrCatTitle": "ACR categories (KDIGO)",
+    "riskStratTitle": "Risk stratification",
+    "riskStratBody": "KDIGO combines G category and A category to stratify risk of progression, cardiovascular events, and mortality — risk rises as GFR falls and/or albuminuria increases, independent of each other. Lowest risk sits at G1–G2 with A1; risk increases progressively toward G4–G5 and/or A3.",
+    "referralTitle": "Referral considerations",
+    "acr": "Urine ACR (mg/g)",
+    "egfr": "eGFR (mL/min/1.73m²)",
+    "calcRisk": "Calculate risk",
+    "risk2": "2-year risk",
+    "risk5": "5-year risk",
+    "kfreNote": "Validated for adults with CKD G3–G5 (eGFR <60) referred to nephrology. Derived in North American cohorts; a calibration factor is often applied outside North America. Use as one input among several for clinical decisions, not in isolation."
+  }
+}
