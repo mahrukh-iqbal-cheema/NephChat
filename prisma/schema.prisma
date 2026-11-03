@@ -1,0 +1,210 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Auth (Better Auth + admin plugin) ----------
+// role: "user" = patient, "admin" = doctor / content editor.
+
+model User {
+  id            String    @id
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  role          String    @default("user")
+  banned        Boolean?  @default(false)
+  banReason     String?
+  banExpires    DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sessions      Session[]
+  accounts      Account[]
+  quizResults   QuizResult[]
+  egfrResults   EgfrResult[]
+  dietPlans     DietPlan[]
+
+  @@map("user")
+}
+
+model Session {
+  id             String   @id
+  expiresAt      DateTime
+  token          String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  impersonatedBy String?
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+// ---------- Patient data (deleted with the account) ----------
+
+enum RiskLevel {
+  GREEN
+  AMBER
+  RED
+}
+
+model QuizResult {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  answers   Json
+  score     Int
+  level     RiskLevel
+  urgent    Boolean
+  createdAt DateTime  @default(now())
+
+  @@index([userId, createdAt])
+}
+
+enum Sex {
+  FEMALE
+  MALE
+}
+
+model EgfrResult {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  age        Int
+  sex        Sex
+  creatinine Decimal  @db.Decimal(5, 2)
+  egfr       Int
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+enum CkdStage {
+  CKD3
+  CKD4
+  CKD5
+  ESRD
+}
+
+model DietPlan {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stage      CkdStage
+  vegetarian Boolean
+  foodIds    String[]
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+// ---------- Content (edited in the admin portal) ----------
+
+model Article {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  icon      String
+  titleEn   String
+  titleUr   String
+  bodyEn    String[]
+  bodyUr    String[]
+  sortOrder Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum FoodCategory {
+  FRUITS
+  VEGETABLES
+  DRY_FRUITS
+  GRAINS
+  DAIRY
+  PROTEIN
+  OTHER
+}
+
+enum NutrientLevel {
+  H
+  L
+}
+
+enum Meal {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
+
+model Food {
+  id          String         @id @default(cuid())
+  slug        String         @unique
+  nameEn      String
+  nameUr      String
+  category    FoodCategory
+  // { CKD3, CKD4, CKD5, ESRD } -> portion text. Null when only nutrient flags are known.
+  portionsEn  Json?
+  portionsUr  Json?
+  potassium   NutrientLevel?
+  phosphorus  NutrientLevel?
+  sodium      NutrientLevel?
+  vegetarian  Boolean        @default(true)
+  meals       Meal[]
+  mealExclude Boolean        @default(false)
+  sortOrder   Int            @default(0)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model Camp {
+  id        String   @id @default(cuid())
+  name      String
+  address   String
+  date      DateTime @db.Date
+  time      String?
+  contact   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([date])
+}
