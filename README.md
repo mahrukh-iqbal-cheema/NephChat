@@ -19,7 +19,7 @@ One Next.js app serves the patient app, the admin portal (`/admin`) and the API.
 Requires Node 20.9+ and PostgreSQL.
 
 ```bash
-cp .env.example .env        # fill in DATABASE_URL, BETTER_AUTH_SECRET, ADMIN_*
+cp .env.example .env        # fill in DATABASE_URL, DIRECT_URL, BETTER_AUTH_SECRET, ADMIN_*
 npm install
 npm run db:deploy           # apply migrations
 npm run db:seed             # load articles + 116 foods, create the first doctor account
